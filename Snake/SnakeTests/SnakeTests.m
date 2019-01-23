@@ -33,6 +33,13 @@
     XCTAssert(snake.direction == UP );
 }
 
+-(void)testChangeDirectionUPtoUP {
+    Snake * snake =[[Snake alloc] init];
+    snake.direction = UP;
+    [snake changeDirection: UP];
+    XCTAssert(snake.direction == UP );
+}
+
 -(void)testChangeDirectionDOWNtoUP {
     Snake * snake =[[Snake alloc] init];
     snake.direction = DOWN;
@@ -52,6 +59,26 @@
     snake.direction = LEFT;
     [snake changeDirection: RIGHT];
     XCTAssert(snake.direction != RIGHT );
+}
+
+-(void)testSnakeMoveTouchBody {
+    Snake * snake =[[Snake alloc] init];
+    SnakePoint newPoint = [snake newPointWtihX: 0 withY: 0];
+    NSValue * newValue = [NSValue valueWithBytes: &newPoint objCType: @encode(SnakePoint)];
+    
+    [snake moveSnakeWithX: 0 withY: 0];
+    NSValue * firstValue = [snake.arrayOfPoints firstObject];
+    XCTAssert([newValue isEqualToValue: firstValue]);
+}
+
+-(void)testSnakeMoveNotTouchBody {
+    Snake * snake =[[Snake alloc] init];
+    SnakePoint newPoint = [snake newPointWtihX: 0 withY: 0];
+    NSValue * newValue = [NSValue valueWithBytes: &newPoint objCType: @encode(SnakePoint)];
+    
+    [snake moveSnakeWithX: 0 withY: 1];
+    NSValue * firstValue = [snake.arrayOfPoints firstObject];
+    XCTAssert(![newValue isEqualToValue: firstValue]);
 }
 
 @end

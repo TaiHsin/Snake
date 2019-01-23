@@ -12,13 +12,20 @@
 -(instancetype)init {
     self = [super init];
     self.arrayOfPoints = [[NSMutableArray alloc] init];
-    [self setupStartPosition];
+    
+    int height = (int)[[UIScreen mainScreen] bounds].size.height;
+    int width = (int)[[UIScreen mainScreen] bounds].size.width;
+    
+    [self setupStartPositionWitHeight: height width: width];
     self.direction = LEFT;
     return self;
 }
 
 // Arguments?
--(void)setupStartPosition {
+-(void)setupStartPositionWitHeight: (int)height
+                             width: (int)width {
+    // convert height/ width to x, y point
+    
     [self addSnakePointWithX:0 withY:0];
     [self addSnakePointWithX:1 withY:0];
 }
@@ -31,7 +38,6 @@
     
     return point;
 }
-
 
 // Get fruit
 -(void)addSnakePointWithX: (int)inputX
@@ -46,20 +52,23 @@
  
     // If snake touch any wall, appear at the other wall
     NSValue * value = [self.arrayOfPoints firstObject];
-    SnakePoint first;
-    [value getValue: &first];
-    NSLog(@"%d", first.x);
+    SnakePoint point;
+    [value getValue: &point];
+    SnakePoint newPoint = [self newPointWtihX: point.x+inputX withY: point.y+inputY];
+    NSValue * newValue = [NSValue valueWithBytes: &newPoint objCType: @encode(SnakePoint)];
     
-    SnakePoint newPoint = [self newPointWtihX: first.x+inputX withY: first.y+inputY];
-    NSValue * pointValue = [NSValue valueWithBytes: &newPoint objCType: @encode(SnakePoint)];
-    [self.arrayOfPoints insertObject: pointValue atIndex: 0];
-    [self.arrayOfPoints removeLastObject];
+    NSInteger index = [self.arrayOfPoints indexOfObject: newValue];
     
     // Snake don't touch body
-    NSInteger index = [self.arrayOfPoints indexOfObject: pointValue];
-    if (index == NSNotFound) {
-
+    if (index != NSNotFound) {
+        return;
     }
+
+    
+    
+    
+    [self.arrayOfPoints insertObject: newValue atIndex: 0];
+    [self.arrayOfPoints removeLastObject];
 }
 
 -(void)changeDirection: (Direction)input {
