@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "Snake.h"
 
 @interface ViewController ()
 

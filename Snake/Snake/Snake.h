@@ -6,13 +6,31 @@
 //  Copyright © 2019 Tsihsin Lee. All rights reserved.
 //
 
-#ifndef Snake_h
-#define Snake_h
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+typedef struct SnakePoint {
+    int x;
+    int y;
+} SnakePoint;
+
+typedef enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+} Direction;
 
 @interface Snake: NSObject
 
 @property NSMutableArray * arrayOfPoints;
-@property NSString * direction;
+@property enum Direction direction;
 
+-(struct SnakePoint)newPointWtihX: (int)inputX withY: (int)inputY;
+-(void)addSnakePointWithX: (int)inputX withY: (int)inputY;
+-(void)moveSnakeWithX: (int)inputX withY: (int)inputY;
+-(void)changeDirection: (Direction)input;
+    
 @end
-#endif /* Snake_h */
+

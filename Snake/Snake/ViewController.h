@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "Snake.h"
+
 @interface ViewController : UIViewController
 
 

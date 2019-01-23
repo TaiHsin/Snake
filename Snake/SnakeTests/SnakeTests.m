@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "Snake.h"
 
 @interface SnakeTests : XCTestCase
 
@@ -14,24 +15,43 @@
 
 @implementation SnakeTests
 
-- (void)setUp {
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+-(void)testSnakeInitLength {
+    Snake * snake =[[Snake alloc] init];
+    XCTAssert([snake.arrayOfPoints count] == 2);
 }
 
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+-(void)testAddSnakePoint {
+    Snake * snake =[[Snake alloc] init];
+    [snake addSnakePointWithX: 1 withY: 0];
+    XCTAssert([snake.arrayOfPoints count] == 3);
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+-(void)testChangeDirectionLEFTtoUP {
+    Snake * snake =[[Snake alloc] init];
+    snake.direction = LEFT;
+    [snake changeDirection: UP];
+    XCTAssert(snake.direction == UP );
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+-(void)testChangeDirectionDOWNtoUP {
+    Snake * snake =[[Snake alloc] init];
+    snake.direction = DOWN;
+    [snake changeDirection: UP];
+    XCTAssert(snake.direction != UP );
+}
+
+-(void)testChangeDirectionDOWNtoRIGHT {
+    Snake * snake =[[Snake alloc] init];
+    snake.direction = DOWN;
+    [snake changeDirection: RIGHT];
+    XCTAssert(snake.direction == RIGHT );
+}
+
+-(void)testChangeDirectionLEFTtoRIGHT {
+    Snake * snake =[[Snake alloc] init];
+    snake.direction = LEFT;
+    [snake changeDirection: RIGHT];
+    XCTAssert(snake.direction != RIGHT );
 }
 
 @end
