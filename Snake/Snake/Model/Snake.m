@@ -23,8 +23,15 @@ int coorWidth;
     int y = height / 2;
     [self addSnakePointWithX: x - 1 withY: y];
     [self addSnakePointWithX: x withY: y];
+    [self generateFruit];
     
     return self;
+}
+
+-(void)generateFruit {
+    int x = arc4random_uniform(coorWidth);
+    int y = arc4random_uniform(coorHeight);
+    self.fruit = [self newPointWtihX: x withY: y];
 }
 
 -(NSValue *)newPointWtihX: (int)x

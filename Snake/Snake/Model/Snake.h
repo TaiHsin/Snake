@@ -9,6 +9,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <stdlib.h>
 
 typedef struct SnakePoint {
     int x;
@@ -26,6 +27,7 @@ typedef enum Direction {
 
 @property NSMutableArray * arrayOfPoints;
 @property enum Direction direction;
+@property NSValue * fruit;
 
 -(id)initWithHeight: (int)height withWidth: (int)width;
 -(NSValue *)newPointWtihX: (int)x

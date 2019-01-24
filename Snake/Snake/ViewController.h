@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Model/Snake.h"
+#import "SnakeView.h"
 
-#import "Snake.h"
+@interface ViewController : UIViewController <SnakeViewDelegate>
 
-@interface ViewController : UIViewController
-
+@property Snake * snake;
+@property SnakeView * snakeView;
+@property NSMutableArray * body;
+@property NSValue * fruit;
 
 @end
 
