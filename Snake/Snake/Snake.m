@@ -9,66 +9,82 @@
 
 @implementation Snake
 
--(instancetype)init {
+int coorHeight;
+int coorWidth;
+
+-(id)initWithHeight: (int)height withWidth: (int)width {
     self = [super init];
     self.arrayOfPoints = [[NSMutableArray alloc] init];
-    
-    int height = (int)[[UIScreen mainScreen] bounds].size.height;
-    int width = (int)[[UIScreen mainScreen] bounds].size.width;
-    
-    [self setupStartPositionWitHeight: height width: width];
     self.direction = LEFT;
+    coorWidth = width;
+    coorHeight = height;
+    
+    int x = width;
+    int y = height / 2;
+    [self addSnakePointWithX: x - 1 withY: y];
+    [self addSnakePointWithX: x withY: y];
+    
     return self;
 }
 
-// Arguments?
--(void)setupStartPositionWitHeight: (int)height
-                             width: (int)width {
-    // convert height/ width to x, y point
-    
-    [self addSnakePointWithX:0 withY:0];
-    [self addSnakePointWithX:1 withY:0];
-}
-
--(struct SnakePoint)newPointWtihX: (int)inputX
-                            withY: (int)inputY {
+-(NSValue *)newPointWtihX: (int)x
+                    withY: (int)y {
     SnakePoint point;
-    point.x = inputX;
-    point.y = inputY;
+    point.x = x;
+    point.y = y;
     
-    return point;
+    NSValue * value = [NSValue valueWithBytes: &point objCType: @encode(SnakePoint)];
+    return value;
 }
 
-// Get fruit
--(void)addSnakePointWithX: (int)inputX
-                    withY: (int)inputY {
-    SnakePoint point = [self newPointWtihX: inputX withY: inputY];
-    NSValue * pointValue = [NSValue valueWithBytes: &point objCType: @encode(SnakePoint)];
-    [self.arrayOfPoints addObject: pointValue];
+-(void)addSnakePointWithX: (int)x
+                    withY: (int)y {
+    NSValue * value = [self newPointWtihX: x withY: y];
+    [self.arrayOfPoints addObject: value];
 }
 
--(void)moveSnakeWithX: (int)inputX
-                withY: (int)inputY {
- 
-    // If snake touch any wall, appear at the other wall
+-(BOOL)moveSnakeToX: (int)x
+                toY: (int)y {
     NSValue * value = [self.arrayOfPoints firstObject];
     SnakePoint point;
     [value getValue: &point];
-    SnakePoint newPoint = [self newPointWtihX: point.x+inputX withY: point.y+inputY];
-    NSValue * newValue = [NSValue valueWithBytes: &newPoint objCType: @encode(SnakePoint)];
+    int newX = point.x + x;
+    int newY = point.y + y;
+ 
+    NSValue * newValue = [self checkTouchedWallWithX: newX withY: newY];
+    bool isTouched = [self isTouchedBody: newValue];
     
-    NSInteger index = [self.arrayOfPoints indexOfObject: newValue];
-    
-    // Snake don't touch body
-    if (index != NSNotFound) {
-        return;
+    if (!isTouched) {
+        [self.arrayOfPoints insertObject: newValue atIndex: 0];
+        [self.arrayOfPoints removeLastObject];
+        return true;
     }
+    return false;
+}
 
-    
-    
-    
-    [self.arrayOfPoints insertObject: newValue atIndex: 0];
-    [self.arrayOfPoints removeLastObject];
+-(NSValue *)checkTouchedWallWithX: (int)x withY: (int)y {
+    if (x < 0) {
+        x = x + coorWidth;
+        
+    } else if (x > coorWidth - 1) {
+        x = x - coorWidth;
+        
+    } else if (y < 0) {
+        y = y + coorHeight;
+        
+    } else if (y > coorHeight - 1) {
+        y = y - coorHeight;
+    }
+    return [self newPointWtihX: x withY: y];
+}
+
+-(BOOL)isTouchedBody: (NSValue *)value {
+    NSInteger index = [self.arrayOfPoints indexOfObject: value];
+
+    if (index != NSNotFound) {
+        return true;
+    }
+    return false;
 }
 
 -(void)changeDirection: (Direction)input {
@@ -78,7 +94,7 @@
                 return;
             }
             self.direction = UP;
-            [self moveSnakeWithX: 0 withY: 1];
+            [self moveSnakeToX: 0 toY: 1];
             break;
             
         case DOWN:
@@ -86,7 +102,7 @@
                 return;
             }
             self.direction = DOWN;
-            [self moveSnakeWithX: 0 withY: -1];
+            [self moveSnakeToX: 0 toY: -1];
             break;
             
         case LEFT:
@@ -94,7 +110,7 @@
                 return;
             }
             self.direction = LEFT;
-            [self moveSnakeWithX: -1 withY: 0];
+            [self moveSnakeToX: -1 toY: 0];
             break;
             
         case RIGHT:
@@ -102,7 +118,7 @@
                 return;
             }
             self.direction = RIGHT;
-            [self moveSnakeWithX: 1 withY: 0];
+            [self moveSnakeToX: 1 toY: 0];
             break;
     }
 }

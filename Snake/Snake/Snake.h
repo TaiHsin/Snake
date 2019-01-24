@@ -27,9 +27,15 @@ typedef enum Direction {
 @property NSMutableArray * arrayOfPoints;
 @property enum Direction direction;
 
--(struct SnakePoint)newPointWtihX: (int)inputX withY: (int)inputY;
--(void)addSnakePointWithX: (int)inputX withY: (int)inputY;
--(void)moveSnakeWithX: (int)inputX withY: (int)inputY;
+-(id)initWithHeight: (int)height withWidth: (int)width;
+-(NSValue *)newPointWtihX: (int)x
+                    withY: (int)y;
+-(void)addSnakePointWithX: (int)x
+                    withY: (int)y;
+-(BOOL)moveSnakeToX: (int)x
+                toY: (int)y;
+-(NSValue *)checkTouchedWallWithX: (int)x withY: (int)y;
+-(BOOL)isTouchedBody: (NSValue *)value;
 -(void)changeDirection: (Direction)input;
     
 @end
