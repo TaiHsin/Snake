@@ -29,12 +29,20 @@ int coorWidth;
 }
 
 -(void)generateFruit {
-    int x = arc4random_uniform(coorWidth);
-    int y = arc4random_uniform(coorHeight);
-    self.fruit = [self newPointWtihX: x withY: y];
+    int x = arc4random_uniform(coorWidth - 2);
+    int y = arc4random_uniform(coorHeight - 2);
+    NSValue * value = [self pointToValueWtihX: x withY: y];
+
+    BOOL isSnakeBody = [self isTouchedBody: value];
+    if (isSnakeBody) {
+        [self generateFruit];
+        
+    } else {
+        self.fruit = value;
+    }
 }
 
--(NSValue *)newPointWtihX: (int)x
+-(NSValue *)pointToValueWtihX: (int)x
                     withY: (int)y {
     SnakePoint point;
     point.x = x;
@@ -46,28 +54,10 @@ int coorWidth;
 
 -(void)addSnakePointWithX: (int)x
                     withY: (int)y {
-    NSValue * value = [self newPointWtihX: x withY: y];
+    NSValue * value = [self pointToValueWtihX: x withY: y];
     [self.arrayOfPoints addObject: value];
 }
 
--(BOOL)moveSnakeToX: (int)x
-                toY: (int)y {
-    NSValue * value = [self.arrayOfPoints firstObject];
-    SnakePoint point;
-    [value getValue: &point];
-    int newX = point.x + x;
-    int newY = point.y + y;
- 
-    NSValue * newValue = [self checkTouchedWallWithX: newX withY: newY];
-    bool isTouched = [self isTouchedBody: newValue];
-    
-    if (!isTouched) {
-        [self.arrayOfPoints insertObject: newValue atIndex: 0];
-        [self.arrayOfPoints removeLastObject];
-        return true;
-    }
-    return false;
-}
 
 -(NSValue *)checkTouchedWallWithX: (int)x withY: (int)y {
     if (x < 0) {
@@ -82,7 +72,108 @@ int coorWidth;
     } else if (y > coorHeight - 1) {
         y = y - coorHeight;
     }
-    return [self newPointWtihX: x withY: y];
+    return [self pointToValueWtihX: x withY: y];
+}
+
+-(NSValue *)getNextPoint {
+    NSValue * value = [self.arrayOfPoints firstObject];
+    SnakePoint point;
+    [value getValue: &point];
+    int x = point.x;
+    int y = point.y;
+    
+    switch (self.direction) {
+        case UP:
+            y --;
+            break;
+            
+        case DOWN:
+            y ++;
+            break;
+            
+        case LEFT:
+            x --;
+            break;
+            
+        case RIGHT:
+            x ++;
+            break;
+    }
+    
+    return [self checkTouchedWallWithX: x withY: y];
+}
+
+-(void)isGetFruit:(NSValue *)value {
+    BOOL isGetFruit = [value isEqualToValue: self.fruit];
+    
+    if (isGetFruit) {
+        [self.arrayOfPoints insertObject: value atIndex: 0];
+        NSValue * secondValue = [self getNextPoint];
+        [self.arrayOfPoints insertObject: secondValue atIndex: 0];
+        [self generateFruit];
+    }
+//    BOOL isGetFruit = [value isEqualToValue: self.fruit];
+//    if (!isGetFruit) {
+//        return;
+//    }
+//
+//    int newSecondLastX = 0;
+//    int newSecondLastY = 0;
+//    int newlastX = 0;
+//    int newlastY = 0;
+//
+//    int count = (int)[self.arrayOfPoints count];
+//    NSValue * lastValue = [self.arrayOfPoints lastObject];
+//    NSValue * secondlastValue = [self.arrayOfPoints objectAtIndex: count-2];
+//    SnakePoint last;
+//    SnakePoint secondLast;
+//    [lastValue getValue: &lastValue];
+//    [secondlastValue getValue: &secondlastValue];
+//
+//    if (last.x == secondLast.x) {
+//        if (self.direction == LEFT) {
+//            newSecondLastX = last.x + 1;
+//            newSecondLastY = last.y;
+//            newlastX = last.x + 2;
+//            newlastY = last.y;
+//
+//        } else if (self.direction == RIGHT) {
+//            newSecondLastX = last.x - 1;
+//            newSecondLastY = last.y;
+//            newlastX = last.x - 2;
+//            newlastY = last.y;
+//        }
+//    } else if (last.y == secondLast.y) {
+//        if (self.direction == UP) {
+//            newSecondLastX = last.x;
+//            newSecondLastY = last.y + 1;
+//            newlastX = last.x;
+//            newlastY = last.y + 2;
+//
+//        } else if (self.direction == DOWN) {
+//            newSecondLastX = last.x;
+//            newSecondLastY = last.y - 1;
+//            newlastX = last.x;
+//            newlastY = last.y - 2;
+//        }
+//    }
+//    NSValue * newSecondLast = [self pointToValueWtihX: newSecondLastX withY: newSecondLastY];
+//    NSValue * newLast = [self pointToValueWtihX: newlastX withY: newlastY];
+//    [self.arrayOfPoints addObject: newSecondLast];
+//    [self.arrayOfPoints addObject: newLast];
+}
+
+-(BOOL)moveSnake {
+    NSValue * value = [self getNextPoint];
+    [self isGetFruit: value];
+    
+    bool isTouched = [self isTouchedBody: value];
+    if (!isTouched) {
+        [self.arrayOfPoints insertObject: value atIndex: 0];
+        [self.arrayOfPoints removeLastObject];
+        return true;
+    }
+    return false;
 }
 
 -(BOOL)isTouchedBody: (NSValue *)value {
@@ -101,7 +192,6 @@ int coorWidth;
                 return;
             }
             self.direction = UP;
-            [self moveSnakeToX: 0 toY: 1];
             break;
             
         case DOWN:
@@ -109,7 +199,6 @@ int coorWidth;
                 return;
             }
             self.direction = DOWN;
-            [self moveSnakeToX: 0 toY: -1];
             break;
             
         case LEFT:
@@ -117,7 +206,6 @@ int coorWidth;
                 return;
             }
             self.direction = LEFT;
-            [self moveSnakeToX: -1 toY: 0];
             break;
             
         case RIGHT:
@@ -125,7 +213,6 @@ int coorWidth;
                 return;
             }
             self.direction = RIGHT;
-            [self moveSnakeToX: 1 toY: 0];
             break;
     }
 }

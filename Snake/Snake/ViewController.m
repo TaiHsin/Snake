@@ -22,7 +22,8 @@
     
     self.snake = [[Snake alloc] initWithHeight: heigth withWidth: width];
     [self initSnakeView];
-    [NSTimer scheduledTimerWithTimeInterval: 0.5 target: self selector: @selector(refresh:) userInfo: nil repeats: YES];
+    [self registerGesture];
+    [NSTimer scheduledTimerWithTimeInterval: 0.2 target: self selector: @selector(refresh:) userInfo: nil repeats: YES];
 }
 
 -(void)initSnakeView {
@@ -34,8 +35,47 @@
 }
 
 -(void)refresh: (NSTimer *)timer {
-    [self.snake changeDirection:LEFT];
+    [self.snake moveSnake];
     [self.snakeView setNeedsDisplay];
+}
+
+-(void)registerGesture {
+    UISwipeGestureRecognizer * up = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(swipeGesture:)];
+    up.direction = UISwipeGestureRecognizerDirectionUp;
+    [self.view addGestureRecognizer: up];
+    
+    UISwipeGestureRecognizer * down = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(swipeGesture:)];
+    down.direction = UISwipeGestureRecognizerDirectionDown;
+    [self.view addGestureRecognizer: down];
+    
+    UISwipeGestureRecognizer * left = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(swipeGesture:)];
+    left.direction = UISwipeGestureRecognizerDirectionLeft;
+    [self.view addGestureRecognizer: left];
+    
+    UISwipeGestureRecognizer * right = [[UISwipeGestureRecognizer alloc] initWithTarget: self action: @selector(swipeGesture:)];
+    right.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer: right];
+}
+
+-(void)swipeGesture: (UISwipeGestureRecognizer *)gesture {
+    
+    switch (gesture.direction) {
+        case UISwipeGestureRecognizerDirectionUp:
+            [self.snake changeDirection: UP];
+            break;
+            
+        case UISwipeGestureRecognizerDirectionDown:
+            [self.snake changeDirection: DOWN];
+            break;
+
+        case UISwipeGestureRecognizerDirectionLeft:
+            [self.snake changeDirection: LEFT];
+            break;
+            
+        case UISwipeGestureRecognizerDirectionRight:
+            [self.snake changeDirection: RIGHT];
+            break;
+    }
 }
 
 #pragma SnakeViewDelegate

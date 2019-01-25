@@ -14,8 +14,6 @@
 
 @property Snake * snake;
 @property SnakeView * snakeView;
-@property NSMutableArray * body;
-@property NSValue * fruit;
 
 @end
 
