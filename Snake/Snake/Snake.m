@@ -13,6 +13,8 @@ int coorHeight;
 
 int coorWidth;
 
+BOOL flag = false;
+
 - (id)initWithHeight: (int)height withWidth: (int)width {
     
     self = [super init];
@@ -144,45 +146,36 @@ int coorWidth;
     return [self checkTouchedWallWithX: x withY: y];
 }
 
-- (BOOL)isGetFruit:(NSValue *)value {
-    
-    BOOL isGetFruit = [value isEqualToValue: self.fruit];
-    
-    if (isGetFruit) {
-       
-        [self.arrayOfPoints insertObject: value atIndex: 0];
-     
-        NSValue * secondValue = [self getNextPoint];
-     
-        [self.arrayOfPoints insertObject: secondValue atIndex: 0];
-        
-        [self generateFruit];
-        
-        return true;
-    }
-    return false;
-}
-
 - (BOOL)moveSnake {
    
     NSValue * value = [self getNextPoint];
    
-    if ([self isGetFruit: value]) {
-        
-        value = [self getNextPoint];
-    }
-    
     bool isTouched = [self isTouchedBody: value];
-   
-    if (!isTouched) {
+
+    if ([value isEqualToValue: self.fruit]) {
         
         [self.arrayOfPoints insertObject: value atIndex: 0];
-      
-        [self.arrayOfPoints removeLastObject];
-      
-        return true;
+        
+        [self generateFruit];
+        
+        flag = true;
+        
+    } else {
+        
+        if (flag == true) {
+            
+            [self.arrayOfPoints insertObject: value atIndex: 0];
+            
+            flag = false;
+        
+        } else {
+            
+            [self.arrayOfPoints insertObject: value atIndex: 0];
+            
+            [self.arrayOfPoints removeLastObject];
+        }
     }
-    return false;
+    return !isTouched;
 }
 
 - (BOOL)isTouchedBody: (NSValue *)value {

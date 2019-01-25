@@ -16,6 +16,9 @@
     
     [self registerGestureOnView: self];
     
+//    UIPanGestureRecognizer * panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget: self action: @selector(panGesture:)];
+//    [self addGestureRecognizer: panGestureRecognizer];
+    
     return self;
 }
 
@@ -23,10 +26,6 @@
   
     [super drawRect: rect];
 
-    NSMutableArray * snakeArray = [self.delegate getSnake: self];
-   
-    NSValue * fruitValue = [self.delegate getFruit: self];
-    
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     UIColor * black = [UIColor colorWithRed: 0.0 green: 0.0 blue: 0.0 alpha: 1];
@@ -35,6 +34,8 @@
    
     CGContextFillRect(context, self.bounds);
     
+    NSMutableArray * snakeArray = [self.delegate getSnake: self];
+
     int num = (int)[snakeArray count];
    
     for (int index = 0; index < num; index++) {
@@ -49,12 +50,14 @@
 
         CGRect rectangle = CGRectMake(x, y, 15, 15);
        
-        UIColor * white = [UIColor colorWithRed: 1.0 green: 1.0 blue: 1.0 alpha: 1];
-       
-        CGContextSetFillColorWithColor(context, white.CGColor);
-       
-        CGContextFillRect(context, rectangle);
+        CGContextAddEllipseInRect(context, rectangle);
+        
+        [[UIColor whiteColor] set];
+        
+        CGContextFillPath(context);
     }
+    
+    NSValue * fruitValue = [self.delegate getFruit: self];
     
     SnakePoint fruitPoint;
     
@@ -66,11 +69,11 @@
    
     CGRect fruitRec = CGRectMake(x, y, 15, 15);
     
-    UIColor * blue = [UIColor colorWithRed: 0.0 green: 0.0 blue: 1.0 alpha: 1];
-   
-    CGContextSetFillColorWithColor(context, blue.CGColor);
-   
-    CGContextFillRect(context, fruitRec);
+    CGContextAddEllipseInRect(context, fruitRec);
+    
+    [[UIColor greenColor] set];
+    
+    CGContextFillPath(context);
 }
 
 #pragma Swipe Gesture
@@ -130,5 +133,29 @@
             break;
     }
 }
+//
+//- (void)panGesture: (UIPanGestureRecognizer *)gesture {
+//
+//    CGPoint velocity = [gesture velocityInView: self];
+//
+//    if (velocity.x > 0) {
+//
+//        [self.delegate didChangeDirection: self with: RIGHT];
+//
+//    } else if (velocity.x < 0) {
+//
+//        [self.delegate didChangeDirection: self with: LEFT];
+//
+//    } else if (velocity.y > 0) {
+//
+//        [self.delegate didChangeDirection: self with: DOWN];
+//
+//    } else if (velocity.y < 0) {
+//
+//        [self.delegate didChangeDirection: self with: UP];
+//
+//    }
+//}
+
 
 @end
