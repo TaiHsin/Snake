@@ -13,7 +13,10 @@
 @interface ViewController : UIViewController <SnakeViewDelegate>
 
 @property Snake * snake;
+
 @property SnakeView * snakeView;
+
+@property UIView * startView;
 
 @end
 

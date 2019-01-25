@@ -15,7 +15,9 @@
 @protocol SnakeViewDelegate <NSObject>
 
 -(NSMutableArray *)getSnake: (SnakeView *) snakeView;
+
 -(NSValue *)getFruit: (SnakeView *) snakeView;
+
 -(void)didChangeDirection: (SnakeView *) snakeView with: (Direction) direction;
 
 @end
