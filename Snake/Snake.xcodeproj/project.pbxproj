@@ -84,15 +84,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5C0FF0AA21F9955A00889E70 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				5C22516C21F6FD45000731D7 /* Snake.m */,
-				5C22516E21F6FD51000731D7 /* Snake.h */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		5C22512E21F6FD36000731D7 = {
 			isa = PBXGroup;
 			children = (
@@ -120,7 +111,8 @@
 				5C22513B21F6FD36000731D7 /* AppDelegate.m */,
 				5C0FF0A721F994BA00889E70 /* SnakeView.h */,
 				5C0FF0A821F994C600889E70 /* SnakeView.m */,
-				5C0FF0AA21F9955A00889E70 /* Model */,
+				5C22516C21F6FD45000731D7 /* Snake.m */,
+				5C22516E21F6FD51000731D7 /* Snake.h */,
 				5C22513D21F6FD36000731D7 /* ViewController.h */,
 				5C22513E21F6FD36000731D7 /* ViewController.m */,
 				5C22514021F6FD36000731D7 /* Main.storyboard */,

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Model/Snake.h"
+#import "Snake.h"
 #import "SnakeView.h"
 
 @interface ViewController : UIViewController <SnakeViewDelegate>

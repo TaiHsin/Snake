@@ -33,19 +33,19 @@ typedef enum Direction {
 
 @property NSValue * fruit;
 
--(id)initWithHeight: (int)height withWidth: (int)width;
+- (id)initWithHeight: (int)height withWidth: (int)width;
 
--(NSValue *)pointToValueWtihX: (int)x withY: (int)y;
+- (NSValue *)pointToValueWtihX: (int)x withY: (int)y;
 
--(void)addSnakePointWithX: (int)x withY: (int)y;
+- (void)addSnakePointWithX: (int)x withY: (int)y;
 
--(BOOL)moveSnake;
+- (BOOL)moveSnake;
 
--(NSValue *)checkTouchedWallWithX: (int)x withY: (int)y;
+- (NSValue *)checkTouchedWallWithX: (int)x withY: (int)y;
 
--(BOOL)isTouchedBody: (NSValue *)value;
+- (BOOL)isTouchedBody: (NSValue *)value;
 
--(void)changeDirection: (Direction)input;
+- (void)changeDirection: (Direction)input;
     
 @end
 

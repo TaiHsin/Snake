@@ -8,19 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "Model/Snake.h"
+#import "Snake.h"
 
 @class SnakeView;
 
 @protocol SnakeViewDelegate <NSObject>
 
+- (NSMutableArray *)getSnake: (SnakeView *) snakeView;
 
+- (NSValue *)getFruit: (SnakeView *) snakeView;
 
--(NSMutableArray *)getSnake: (SnakeView *) snakeView;
-
--(NSValue *)getFruit: (SnakeView *) snakeView;
-
--(void)didChangeDirection: (SnakeView *) snakeView with: (Direction) direction;
+- (void)didChangeDirection: (SnakeView *) snakeView with: (Direction) direction;
 
 @end
 

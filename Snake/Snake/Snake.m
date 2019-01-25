@@ -13,7 +13,7 @@ int coorHeight;
 
 int coorWidth;
 
--(id)initWithHeight: (int)height withWidth: (int)width {
+- (id)initWithHeight: (int)height withWidth: (int)width {
     
     self = [super init];
     
@@ -38,7 +38,7 @@ int coorWidth;
     return self;
 }
 
--(void)generateFruit {
+- (void)generateFruit {
     
     int x = arc4random_uniform(coorWidth - 2);
     
@@ -58,7 +58,7 @@ int coorWidth;
     }
 }
 
--(NSValue *)pointToValueWtihX: (int)x
+- (NSValue *)pointToValueWtihX: (int)x
                     withY: (int)y {
     
     SnakePoint point;
@@ -72,7 +72,7 @@ int coorWidth;
     return value;
 }
 
--(void)addSnakePointWithX: (int)x
+- (void)addSnakePointWithX: (int)x
                     withY: (int)y {
     
     NSValue * value = [self pointToValueWtihX: x withY: y];
@@ -81,7 +81,7 @@ int coorWidth;
 }
 
 
--(NSValue *)checkTouchedWallWithX: (int)x withY: (int)y {
+- (NSValue *)checkTouchedWallWithX: (int)x withY: (int)y {
     
     if (x < 0) {
         
@@ -102,7 +102,7 @@ int coorWidth;
     return [self pointToValueWtihX: x withY: y];
 }
 
--(NSValue *)getNextPoint {
+- (NSValue *)getNextPoint {
     
     NSValue * value = [self.arrayOfPoints firstObject];
     
@@ -144,7 +144,7 @@ int coorWidth;
     return [self checkTouchedWallWithX: x withY: y];
 }
 
--(BOOL)isGetFruit:(NSValue *)value {
+- (BOOL)isGetFruit:(NSValue *)value {
     
     BOOL isGetFruit = [value isEqualToValue: self.fruit];
     
@@ -163,7 +163,7 @@ int coorWidth;
     return false;
 }
 
--(BOOL)moveSnake {
+- (BOOL)moveSnake {
    
     NSValue * value = [self getNextPoint];
    
@@ -185,7 +185,7 @@ int coorWidth;
     return false;
 }
 
--(BOOL)isTouchedBody: (NSValue *)value {
+- (BOOL)isTouchedBody: (NSValue *)value {
     NSInteger index = [self.arrayOfPoints indexOfObject: value];
 
     if (index != NSNotFound) {
@@ -196,7 +196,7 @@ int coorWidth;
     return false;
 }
 
--(void)changeDirection: (Direction)input {
+- (void)changeDirection: (Direction)input {
   
     switch (input) {
       

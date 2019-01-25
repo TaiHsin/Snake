@@ -10,7 +10,7 @@
 
 @implementation SnakeView
 
--(id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame {
     
     self = [super initWithFrame: frame];
     
@@ -19,7 +19,7 @@
     return self;
 }
 
--(void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect {
   
     [super drawRect: rect];
 
@@ -30,12 +30,10 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     UIColor * black = [UIColor colorWithRed: 0.0 green: 0.0 blue: 0.0 alpha: 1];
-    UIColor * green = [UIColor colorWithRed: 0.0 green: 1.0 blue: 0.0 alpha: 1];
+    
     CGContextSetFillColorWithColor(context, black.CGColor);
    
     CGContextFillRect(context, self.bounds);
-    
-    CGContextSetStrokeColorWithColor(context, green.CGColor);
     
     int num = (int)[snakeArray count];
    
@@ -77,7 +75,7 @@
 
 #pragma Swipe Gesture
 
--(void)registerGestureOnView: (UIView *)view {
+- (void)registerGestureOnView: (UIView *)view {
     UISwipeGestureRecognizer * up = [[UISwipeGestureRecognizer alloc] initWithTarget: self
                                                                               action: @selector(swipeGesture:)];
     up.direction = UISwipeGestureRecognizerDirectionUp;
@@ -103,7 +101,7 @@
     [view addGestureRecognizer: right];
 }
 
--(void)swipeGesture: (UISwipeGestureRecognizer *)gesture {
+- (void)swipeGesture: (UISwipeGestureRecognizer *)gesture {
     
     switch (gesture.direction) {
             
