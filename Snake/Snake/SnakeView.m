@@ -30,10 +30,12 @@
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     UIColor * black = [UIColor colorWithRed: 0.0 green: 0.0 blue: 0.0 alpha: 1];
-    
+    UIColor * green = [UIColor colorWithRed: 0.0 green: 1.0 blue: 0.0 alpha: 1];
     CGContextSetFillColorWithColor(context, black.CGColor);
    
     CGContextFillRect(context, self.bounds);
+    
+    CGContextSetStrokeColorWithColor(context, green.CGColor);
     
     int num = (int)[snakeArray count];
    
@@ -43,11 +45,11 @@
        
         [snakeArray[index] getValue: &point];
       
-        CGFloat x = point.x * 10;
+        CGFloat x = point.x * 15;
 
-        CGFloat y = point.y * 10;
+        CGFloat y = point.y * 15;
 
-        CGRect rectangle = CGRectMake(x, y, 10, 10);
+        CGRect rectangle = CGRectMake(x, y, 15, 15);
        
         UIColor * white = [UIColor colorWithRed: 1.0 green: 1.0 blue: 1.0 alpha: 1];
        
@@ -60,11 +62,11 @@
     
     [fruitValue getValue: &fruitPoint];
    
-    CGFloat x = fruitPoint.x * 10;
+    CGFloat x = fruitPoint.x * 15;
     
-    CGFloat y = fruitPoint.y * 10;
+    CGFloat y = fruitPoint.y * 15;
    
-    CGRect fruitRec = CGRectMake(x, y, 10, 10);
+    CGRect fruitRec = CGRectMake(x, y, 15, 15);
     
     UIColor * blue = [UIColor colorWithRed: 0.0 green: 0.0 blue: 1.0 alpha: 1];
    
@@ -79,21 +81,25 @@
     UISwipeGestureRecognizer * up = [[UISwipeGestureRecognizer alloc] initWithTarget: self
                                                                               action: @selector(swipeGesture:)];
     up.direction = UISwipeGestureRecognizerDirectionUp;
+    
     [view addGestureRecognizer: up];
     
     UISwipeGestureRecognizer * down = [[UISwipeGestureRecognizer alloc] initWithTarget: self
                                                                                 action: @selector(swipeGesture:)];
     down.direction = UISwipeGestureRecognizerDirectionDown;
+   
     [view addGestureRecognizer: down];
     
     UISwipeGestureRecognizer * left = [[UISwipeGestureRecognizer alloc] initWithTarget: self
                                                                                 action: @selector(swipeGesture:)];
     left.direction = UISwipeGestureRecognizerDirectionLeft;
+   
     [view addGestureRecognizer: left];
     
     UISwipeGestureRecognizer * right = [[UISwipeGestureRecognizer alloc] initWithTarget: self
                                                                                  action: @selector(swipeGesture:)];
     right.direction = UISwipeGestureRecognizerDirectionRight;
+    
     [view addGestureRecognizer: right];
 }
 

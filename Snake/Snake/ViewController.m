@@ -14,29 +14,20 @@
 
 @implementation ViewController 
 
-int screenHeight;
-int screenWidth;
-
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+
+    UIWindow * window = UIApplication.sharedApplication.windows[0];
     
-    screenHeight = [[UIScreen mainScreen] bounds].size.height;
+    self.rect = window.safeAreaLayoutGuide.layoutFrame;
     
-    screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
     
-    self.snake = [[Snake alloc] initWithHeight: screenHeight / 10 withWidth: screenWidth / 10];
-    
-    [self initSnakeView];
-    
-    [self initStartView];
-    
-    [NSTimer scheduledTimerWithTimeInterval: 0.2 target: self selector: @selector(refresh:) userInfo: nil repeats: YES];
+    [self initStartViewWithRect: screenRect];
 }
 
--(void)initStartView {
-    
-    CGRect rect = [[UIScreen mainScreen] bounds];
+- (void)initStartViewWithRect: (CGRect)rect {
     
     self.startView = [[UIView alloc] initWithFrame: rect];
     
@@ -47,7 +38,7 @@ int screenWidth;
     [self.view addSubview: self.startView];
 }
 
--(void)addButtonOnView: (UIView *)view {
+- (void)addButtonOnView: (UIView *)view {
     
     UIButton * button = [UIButton buttonWithType: UIButtonTypeCustom];
     
@@ -57,16 +48,14 @@ int screenWidth;
     
     [button sizeToFit];
     
-    button.center = CGPointMake(screenWidth / 2, screenHeight / 2);
+    button.center = CGPointMake(self.rect.size.width / 2,  self.rect.size.height / 2);
     
     [view addSubview: button];
 }
 
--(void)initSnakeView {
+- (void)initSnakeView {
     
-    CGRect rect = [[UIScreen mainScreen] bounds];
-    
-    self.snakeView = [[SnakeView alloc] initWithFrame: rect];
+    self.snakeView = [[SnakeView alloc] initWithFrame: self.rect];
     
     [self.view addSubview: self.snakeView];
     
@@ -75,7 +64,7 @@ int screenWidth;
     self.snakeView.delegate = self;
 }
 
--(void)refresh: (NSTimer *)timer {
+- (void)refresh: (NSTimer *)timer {
     
     if ([self.snake moveSnake]) {
     
@@ -84,12 +73,28 @@ int screenWidth;
     } else {
         
         self.startView.hidden = false;
+        
+        [timer invalidate];
+        
+        self.snakeView = nil;
+        
+        self.snake = nil;
     }
 }
 
--(void)startGame: (UIButton *)sendor {
+- (void)startGame: (UIButton *)sendor {
     
-    sendor.superview.hidden = true;
+    self.snake = [[Snake alloc] initWithHeight: self.rect.size.height / 15 withWidth: self.rect.size.width / 15];
+    
+    [self initSnakeView];
+    
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    
+    [self initStartViewWithRect: screenRect];
+    
+    [NSTimer scheduledTimerWithTimeInterval: 0.2 target: self selector: @selector(refresh:) userInfo: nil repeats: YES];
+    
+    self.startView.hidden = true;
 }
 
 #pragma SnakeViewDelegate

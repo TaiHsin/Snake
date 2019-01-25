@@ -18,5 +18,7 @@
 
 @property UIView * startView;
 
+@property CGRect rect;
+
 @end
 
