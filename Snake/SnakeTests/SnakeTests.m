@@ -63,42 +63,42 @@
 
 -(void)testSnakeisTouched {
     Snake * snake =[[Snake alloc] initWithHeight: 10 withWidth: 10];
-    NSValue * value = [snake newPointWtihX: 10 withY: 5];
+    NSValue * value = [snake pointToValueWtihX: 10 withY: 5];
     BOOL isTouched = [snake isTouchedBody: value];
     XCTAssert(isTouched);
 }
 
 -(void)testSnakeisNotTouched {
     Snake * snake =[[Snake alloc] initWithHeight: 10 withWidth: 10];
-    NSValue * value = [snake newPointWtihX: 0 withY: 0];
+    NSValue * value = [snake pointToValueWtihX: 0 withY: 0];
     BOOL isTouched = [snake isTouchedBody: value];
     XCTAssert(!isTouched);
 }
 
 -(void)testSnakeTouchRIGHTWall {
     Snake * snake =[[Snake alloc] initWithHeight: 10 withWidth: 10];
-    NSValue * value = [snake newPointWtihX: 0 withY: 0];
+    NSValue * value = [snake pointToValueWtihX: 0 withY: 0];
     NSValue * checkValue = [snake checkTouchedWallWithX: 10 withY: 0];
     XCTAssert([value isEqualToValue: checkValue]);
 }
 
 -(void)testSnakeTouchLEFTWall {
     Snake * snake =[[Snake alloc] initWithHeight: 10 withWidth: 10];
-    NSValue * value = [snake newPointWtihX: 9 withY: 0];
+    NSValue * value = [snake pointToValueWtihX: 9 withY: 0];
     NSValue * checkValue = [snake checkTouchedWallWithX: -1 withY: 0];
     XCTAssert([value isEqualToValue: checkValue]);
 }
 
 -(void)testSnakeTouchUPWall {
     Snake * snake =[[Snake alloc] initWithHeight: 10 withWidth: 10];
-    NSValue * value = [snake newPointWtihX: 0 withY: 9];
+    NSValue * value = [snake pointToValueWtihX: 0 withY: 9];
     NSValue * checkValue = [snake checkTouchedWallWithX: 0 withY: -1];
     XCTAssert([value isEqualToValue: checkValue]);
 }
 
 -(void)testSnakeTouchBOTTOMWall {
     Snake * snake =[[Snake alloc] initWithHeight: 10 withWidth: 10];
-    NSValue * value = [snake newPointWtihX: 0 withY: 0];
+    NSValue * value = [snake pointToValueWtihX: 0 withY: 0];
     NSValue * checkValue = [snake checkTouchedWallWithX: 0 withY: 10];
     XCTAssert([value isEqualToValue: checkValue]);
 }
